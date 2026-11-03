@@ -65,6 +65,25 @@ WireMock запускается автоматически на порту 8888.
 
 Скрипт запускает приложение, выполняет тесты и затем останавливает приложение.
 
+### Конфигурация
+
+По умолчанию тесты используют:
+
+- API URL: `http://localhost:8080`
+- API key: значение, предоставленное в тестовом задании
+
+При необходимости параметры можно переопределить:
+
+```powershell
+mvn clean test "-Dapi.baseUrl=http://localhost:8080" "-Dapi.key=YOUR_API_KEY"
+```
+
+При запуске через PowerShell-скрипт:
+
+```powershell
+.\run-tests.ps1 -JarPath "C:\path\to\application.jar" -ApiKey "YOUR_API_KEY"
+```
+
 ## Отчёты о тестировании
 
 Создайте и откройте отчёт Allure:

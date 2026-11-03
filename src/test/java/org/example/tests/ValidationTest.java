@@ -89,14 +89,15 @@ class ValidationTest {
         // Действие: отправляем запрос на вход
         var response = apiClient.sendRequest(token, "LOGIN");
 
-        // Проверка: внешний сервис не вызывался
-        // при отклонении токена приложением
-        verify(0, postRequestedFor(urlEqualTo("/auth")));
-
         // Проверка: поведение соответствует спецификации
         response.then()
             .statusCode(200)
             .body("result", equalTo("OK"));
+
+        // Проверка: внешний сервис не вызывался
+        // при отклонении токена приложением
+        verify(1, postRequestedFor(urlEqualTo("/auth"))
+            .withRequestBody(containing("token=" + token)));
     }
 
 

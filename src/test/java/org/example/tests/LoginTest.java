@@ -47,7 +47,6 @@ class LoginTest extends BaseTest {
     void loginFailsWhenExternalAuthReturns401() {
 
         String token = TokenGenerator.generate();
-        registerTokenForCleanup(token);
 
         // Подготовка: имитируем отказ внешнего сервиса аутентификации
         stubFor(post(urlEqualTo("/auth"))
@@ -120,9 +119,6 @@ class LoginTest extends BaseTest {
 
         // Проверка: действия не выполнялись
         verify(0, postRequestedFor(urlEqualTo("/doAction")));
-
-        // Очистка: удаляем аутентифицированный токен
-        apiClient.sendRequest(token, "LOGOUT");
     }
 
 

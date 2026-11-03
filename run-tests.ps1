@@ -1,7 +1,9 @@
 ﻿
 param(
     [Parameter(Mandatory = $true)]
-    [string]$JarPath
+    [string]$JarPath,
+
+    [string]$ApiKey = "qazWSXedc"
 )
 
 $ErrorActionPreference = "Stop"
@@ -33,13 +35,13 @@ try {
     $appProcess = Start-Process `
         -FilePath "java" `
         -ArgumentList @(
-            "-Dsecret=qazWSXedc",
+            "-Dsecret=$ApiKey",
             "-Dmock=http://localhost:8888/",
             "-jar",
             "`"$JarPath`""
         ) `
         -PassThru `
-        -NoNewWindow
+        -WindowStyle Hidden
 
     # Ожидаем готовности приложения
     $started = $false
@@ -68,7 +70,7 @@ try {
     # Запускаем набор тестов
     Write-Host "Запуск автоматизированных тестов..."
 
-    & mvn clean test
+    & mvn clean test "-Dapi.key=$ApiKey"
     $testExitCode = $LASTEXITCODE
 
     if ($testExitCode -ne 0) {

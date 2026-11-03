@@ -22,6 +22,7 @@ class LogoutTest extends BaseTest {
 
         // Подготовка: создаём уникальный токен
         String token = TokenGenerator.generate();
+        registerTokenForCleanup(token);
 
         // Подготовка: имитируем успешную аутентификацию
         stubFor(post(urlEqualTo("/auth"))
@@ -54,6 +55,8 @@ class LogoutTest extends BaseTest {
                 "result",
                 equalTo("OK")
             );
+
+        unregisterTokenForCleanup(token);
 
         // Действие: пытаемся выполнить действие после выхода
         var actionResponse = apiClient.sendRequest(
@@ -90,6 +93,7 @@ class LogoutTest extends BaseTest {
 
         // Подготовка: создаём уникальный токен
         String token = TokenGenerator.generate();
+        registerTokenForCleanup(token);
 
         // Подготовка: имитируем успешную аутентификацию
         stubFor(post(urlEqualTo("/auth"))
@@ -122,6 +126,8 @@ class LogoutTest extends BaseTest {
                 "result",
                 equalTo("OK")
             );
+
+        unregisterTokenForCleanup(token);
 
         // Действие: пытаемся выйти повторно
         var secondLogoutResponse = apiClient.sendRequest(
